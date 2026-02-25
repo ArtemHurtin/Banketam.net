@@ -1,6 +1,8 @@
-/* Единый файл стилей (style.css) — объединение предоставленных стилей и адаптивности */
+/* style.css — единый файл стилей для всех устройств (адаптивный) */
 
-/* Подключение шрифта Oswald */
+/* Подключение шрифта Oswald и иконок Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
 @font-face {
     font-family: 'Oswald';
     src: url('../fonts/Oswald-Regular.ttf') format('truetype');
@@ -8,31 +10,30 @@
     font-style: normal;
 }
 
-/* CSS-переменные (цветовая палитра из предоставленного CSS) */
+/* CSS-переменные с цветовой палитрой */
 :root {
-    --primary: #DC143C;        /* основной акцент (красный) */
-    --primary-dark: #b01030;   /* тёмный оттенок primary */
-    --secondary: #DAA520;      /* золотистый */
+    --primary: #DC143C;
+    --primary-dark: #b01030;
+    --secondary: #DAA520;
     --secondary-dark: #b8860b;
-    --accent-light: #FFDAB9;   /* персиковый (для фона хедера, футера, карточек) */
-    --background: #FFFDD0;     /* общий фон (кремовый) */
-    --text-dark: #000000;      /* основной текст */
-    --text-light: #FFFDD0;     /* светлый текст на тёмном фоне */
-    --success: #006400;        /* тёмно-зелёный (успех) */
+    --accent-light: #FFDAB9;
+    --background: #FFFDD0;
+    --text-dark: #2c3e50;
+    --text-light: #FFFDD0;
+    --success: #006400;
     --success-light: #228B22;
-    --danger: #DC143C;          /* красный для ошибок (совпадает с primary) */
+    --danger: #DC143C;
     --warning: #DAA520;
     --gray: #666;
-    --light-gray: #f0f0f0;
+    --light-gray: #f8f9fa;
     --border-color: #DAA520;
-    --shadow: 0 4px 6px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-hover: 0 8px 20px rgba(0,0,0,0.15);
     --radius: 12px;
     --radius-sm: 8px;
     --transition: all 0.3s ease;
 }
 
-/* Сброс и базовые стили */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -53,23 +54,22 @@ body {
     margin: 0 auto;
 }
 
-/* Шапка (header) */
+/* Шапка */
 .header {
     background-color: var(--accent-light);
-    padding: 30px 0;
+    padding: 30px 20px;
     border-bottom: 4px solid var(--secondary);
+    text-align: center;
 }
 
 .header h1 {
     font-size: 36px;
     color: var(--primary);
-    text-align: center;
+    margin-bottom: 10px;
 }
 
 .subtitle {
-    text-align: center;
     font-size: 16px;
-    margin-top: 10px;
     color: var(--text-dark);
 }
 
@@ -77,7 +77,7 @@ body {
 .nav {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     margin-top: 20px;
     flex-wrap: wrap;
 }
@@ -86,15 +86,16 @@ body {
     text-decoration: none;
     color: var(--success);
     font-size: 16px;
-    padding: 8px 16px;
+    padding: 8px 20px;
     border: 2px solid var(--success);
-    border-radius: var(--radius-sm);
+    border-radius: 40px;
     transition: var(--transition);
+    font-weight: 500;
 }
 
 .nav a:hover {
     background-color: var(--success);
-    color: var(--background);
+    color: var(--accent-light);
 }
 
 /* Основной контент */
@@ -103,50 +104,41 @@ main {
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 28px;
     color: var(--secondary);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--secondary);
-    margin: 25px 0 10px;
-}
-
-p, li {
-    font-size: 16px;
-    line-height: 1.6;
+    margin: 25px 0 15px;
 }
 
 /* Футер */
 .footer {
     background-color: var(--accent-light);
-    padding: 15px 0;
+    padding: 20px 0;
     text-align: center;
     border-top: 2px solid var(--secondary);
     margin-top: 40px;
+    color: var(--text-dark);
 }
 
-.help-text {
-    font-size: 12px;
-    color: var(--success);
-}
-
-/* Карточки залов (общие) */
+/* Карточки залов */
 .hall-card {
-    background-color: var(--accent-light);
-    border: 1px solid var(--border-color);
+    background-color: #fff;
     border-radius: var(--radius);
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    border: 1px solid var(--border-color);
 }
 
 .hall-card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
 }
 
 .hall-image {
@@ -156,10 +148,11 @@ p, li {
     background-position: center;
     border-radius: var(--radius-sm);
     margin-bottom: 15px;
+    border: 2px solid var(--accent-light);
 }
 
 .hall-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     color: var(--primary);
     margin-bottom: 10px;
@@ -170,147 +163,46 @@ p, li {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 15px;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--gray);
 }
 
 .hall-detail-item {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }
 
 .hall-detail-item i {
     color: var(--secondary);
+    width: 18px;
 }
 
 .hall-price {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--primary);
     margin-bottom: 15px;
 }
 
-/* Сетка залов (для каталога) */
+/* Сетка залов */
 .halls-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+    gap: 25px;
+    margin-top: 25px;
 }
 
-/* Формы (общие стили) */
-.form-wrapper {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 30px 25px;
-    background: var(--background);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
-}
-
-.form-wrapper h2 {
-    color: var(--primary);
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 28px;
-}
-
-.form-wrapper .form-group {
-    margin-bottom: 15px;
-}
-
-.form-wrapper label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: var(--success);
-}
-
-.form-wrapper input,
-.form-wrapper select,
-.form-wrapper textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 2px solid var(--secondary);
-    border-radius: var(--radius-sm);
-    font-size: 16px;
-    font-family: inherit;
-    transition: var(--transition);
-    background-color: white;
-}
-
-.form-wrapper input:focus,
-.form-wrapper select:focus,
-.form-wrapper textarea:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 8px rgba(220,20,60,0.3);
-}
-
-.form-wrapper .btn {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--secondary);
-    border: none;
-    border-radius: var(--radius-sm);
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    margin-top: 10px;
-}
-
-.form-wrapper .btn:hover {
-    background-color: var(--primary);
-}
-
-.form-wrapper .error {
-    color: var(--danger);
-    font-size: 14px;
-    margin-bottom: 10px;
-    background-color: rgba(220,20,60,0.1);
-    padding: 8px;
-    border-radius: var(--radius-sm);
-    text-align: center;
-}
-
-.form-wrapper .success {
-    color: var(--success);
-    font-size: 14px;
-    margin-bottom: 10px;
-    background-color: rgba(0,100,0,0.1);
-    padding: 8px;
-    border-radius: var(--radius-sm);
-    text-align: center;
-}
-
-.form-wrapper .form-link {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.form-wrapper .form-link a {
-    color: var(--secondary);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.form-wrapper .form-link a:hover {
-    color: var(--primary);
-    text-decoration: underline;
-}
-
-/* Кнопки (общие) */
+/* Кнопки */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 25px;
     background-color: var(--primary);
-    color: var(--background);
+    color: white;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 40px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: var(--transition);
     text-decoration: none;
@@ -318,13 +210,13 @@ p, li {
 }
 
 .btn:hover {
-    background-color: var(--success);
-    color: var(--background);
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 .btn-secondary {
     background-color: var(--secondary);
-    color: var(--background);
 }
 
 .btn-secondary:hover {
@@ -332,13 +224,13 @@ p, li {
 }
 
 .btn-outline {
-    background: transparent;
+    background-color: transparent;
     border: 2px solid var(--primary);
     color: var(--primary);
 }
 
 .btn-outline:hover {
-    background: var(--primary);
+    background-color: var(--primary);
     color: white;
 }
 
@@ -346,30 +238,62 @@ p, li {
     width: 100%;
 }
 
-/* Уведомления (alert) */
-.alert {
-    padding: 12px 20px;
-    border-radius: var(--radius-sm);
+/* Формы */
+.form-wrapper {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px 25px;
+    background-color: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.form-wrapper h2 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.form-wrapper h2::after {
+    content: none;
+}
+
+.form-group {
     margin-bottom: 20px;
-    border-left: 4px solid transparent;
+    position: relative;
 }
 
-.alert-success {
-    background-color: rgba(0,100,0,0.1);
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
     color: var(--success);
-    border-left-color: var(--success);
 }
 
-.alert-danger {
-    background-color: rgba(220,20,60,0.1);
-    color: var(--danger);
-    border-left-color: var(--danger);
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-family: inherit;
+    transition: var(--transition);
+    background-color: #fff;
 }
 
-.alert-warning {
-    background-color: rgba(218,165,32,0.1);
-    color: var(--warning);
-    border-left-color: var(--warning);
+.form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220,20,60,0.1);
+}
+
+/* Иконки внутри полей (опционально) */
+.form-group i {
+    position: absolute;
+    left: 12px;
+    top: 38px;
+    color: var(--secondary);
 }
 
 /* Таблицы */
@@ -380,28 +304,24 @@ p, li {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    background: #fff;
 }
 
 th {
     background-color: var(--secondary);
-    color: var(--text-dark);
-    padding: 10px;
+    color: #000;
+    padding: 12px;
     font-size: 16px;
-    font-weight: 600;
 }
 
 td {
     border: 1px solid var(--border-color);
-    padding: 8px;
+    padding: 10px;
     text-align: center;
-    font-size: 16px;
 }
 
 select.status {
-    font-family: inherit;
-    font-size: 14px;
-    padding: 4px;
+    padding: 5px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
 }
@@ -434,8 +354,8 @@ select.status {
 .slider-container {
     position: relative;
     width: 100%;
-    height: 200px;
-    margin-bottom: 24px;
+    height: 220px;
+    margin-bottom: 25px;
     border-radius: var(--radius);
     overflow: hidden;
 }
@@ -466,27 +386,22 @@ select.status {
     background: rgba(255,255,255,0.8);
     border: none;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--dark);
-    z-index: 10;
+    color: var(--primary);
     transition: var(--transition);
+    z-index: 10;
 }
 
 .slider-btn:hover {
     background: white;
 }
 
-.slider-btn.prev {
-    left: 10px;
-}
-
-.slider-btn.next {
-    right: 10px;
-}
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
 
 .slider-dots {
     position: absolute;
@@ -507,12 +422,13 @@ select.status {
 
 .dot.active {
     background: white;
+    transform: scale(1.2);
 }
 
-/* Фильтры (для админки/личного кабинета) */
+/* Фильтры */
 .filters-bar {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
@@ -523,8 +439,7 @@ select.status {
     padding: 10px;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-sm);
-    font-size: 14px;
-    background-color: white;
+    background: white;
 }
 
 /* Пагинация */
@@ -537,8 +452,8 @@ select.status {
 }
 
 .page-item {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -559,125 +474,12 @@ select.status {
     border-color: var(--secondary);
 }
 
-/* Модальные окна */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: var(--transition);
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal {
-    background: var(--background);
-    border-radius: var(--radius);
-    max-width: 500px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    transform: translateY(-20px);
-    transition: var(--transition);
-    box-shadow: var(--shadow-lg);
-}
-
-.modal-overlay.active .modal {
-    transform: translateY(0);
-}
-
-.modal-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--gray);
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.modal-footer {
-    padding: 20px;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-/* Уведомления (всплывающие) */
-.notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 350px;
-    padding: 16px;
-    border-radius: var(--radius-sm);
-    background: white;
-    box-shadow: var(--shadow-lg);
-    z-index: 1000;
-    animation: slideDown 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-left: 4px solid transparent;
-}
-
-.notification.success {
-    border-left-color: var(--success);
-    color: var(--success);
-}
-
-.notification.error {
-    border-left-color: var(--danger);
-    color: var(--danger);
-}
-
-@keyframes slideDown {
-    from {
-        transform: translate(-50%, -100%);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-}
-
-/* Заявки в личном кабинете (карточки) */
+/* Заявки в личном кабинете */
 .booking-item {
     background: var(--accent-light);
     border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
     border: 1px solid var(--border-color);
 }
 
@@ -685,12 +487,11 @@ select.status {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .booking-hall {
     font-weight: 600;
-    font-size: 16px;
     color: var(--primary);
 }
 
@@ -717,84 +518,52 @@ select.status {
 }
 
 .detail-value {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
 }
 
 /* Пустые состояния */
 .empty-state {
     text-align: center;
-    padding: 60px 20px;
+    padding: 50px 20px;
     background: var(--accent-light);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
 }
 
 .empty-state i {
     font-size: 48px;
     color: var(--secondary);
-    margin-bottom: 16px;
+    margin-bottom: 15px;
 }
 
-.empty-state p {
-    color: var(--gray);
+/* Уведомления */
+.alert {
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
     margin-bottom: 20px;
+    border-left: 4px solid transparent;
 }
 
-/* Утилиты */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-.mt-1 { margin-top: 5px; }
-.mt-2 { margin-top: 10px; }
-.mt-3 { margin-top: 15px; }
-.mt-4 { margin-top: 20px; }
-.mt-5 { margin-top: 25px; }
-
-.mb-1 { margin-bottom: 5px; }
-.mb-2 { margin-bottom: 10px; }
-.mb-3 { margin-bottom: 15px; }
-.mb-4 { margin-bottom: 20px; }
-.mb-5 { margin-bottom: 25px; }
-
-.p-1 { padding: 5px; }
-.p-2 { padding: 10px; }
-.p-3 { padding: 15px; }
-.p-4 { padding: 20px; }
-.p-5 { padding: 25px; }
-
-/* Адаптивность (mobile first) */
-
-/* Для экранов шире 768px (десктоп) */
-@media (min-width: 768px) {
-    .header h1 {
-        font-size: 48px;
-    }
-
-    .halls-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .form-wrapper {
-        max-width: 600px;
-    }
+.alert-success {
+    background: rgba(0,100,0,0.1);
+    color: var(--success);
+    border-left-color: var(--success);
 }
 
-/* Для мобильных (до 767px) */
-@media (max-width: 767px) {
+.alert-danger {
+    background: rgba(220,20,60,0.1);
+    color: var(--danger);
+    border-left-color: var(--danger);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
     .header h1 {
         font-size: 28px;
     }
 
-    .nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
     .nav a {
-        width: 80%;
+        width: 100%;
         text-align: center;
     }
 
@@ -803,64 +572,72 @@ select.status {
     }
 
     .slider-container {
-        height: 150px;
+        height: 180px;
     }
 
-    .filter-select {
-        min-width: 100%;
+    .form-wrapper {
+        padding: 20px;
     }
 
     .booking-details {
         grid-template-columns: 1fr;
     }
 
+    .filters-bar {
+        flex-direction: column;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    /* Адаптивные таблицы */
     table, thead, tbody, th, td, tr {
         display: block;
     }
 
     thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
+        display: none;
     }
 
     tr {
         border: 1px solid var(--border-color);
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
     }
 
     td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         border: none;
         border-bottom: 1px solid var(--border-color);
-        position: relative;
-        padding-left: 50%;
-        text-align: right;
+        padding: 10px 12px;
     }
 
-    td:before {
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td::before {
         content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        width: 45%;
-        white-space: nowrap;
         font-weight: 600;
         color: var(--success);
-        text-align: left;
+        width: 45%;
     }
 }
 
-/* Для печати */
+/* Для больших экранов */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Печать */
 @media print {
     .no-print {
         display: none !important;
-    }
-
-    body {
-        background: white;
-    }
-
-    .card, .hall-card, .booking-item {
-        box-shadow: none;
-        border: 1px solid #ddd;
     }
 }
