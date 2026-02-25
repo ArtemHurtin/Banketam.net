@@ -1,49 +1,120 @@
 <?php
-session_start();
-require_once 'classes/Database.php';
-require_once 'classes/Halls.php';
+// Включаем отображение ошибок (только для разработки, на продакшене отключить)
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-$hallModel = new Hall();
-$halls = $hallModel->getAll();
+session_start();
+
+// Проверяем наличие необходимых файлов
+if (!file_exists('classes/Database.php')) {
+    die('Ошибка: файл classes/Database.php не найден. Проверьте структуру проекта.');
+}
+if (!file_exists('classes/Hall.php') && !file_exists('classes/Halls.php')) {
+    die('Ошибка: файл класса Hall не найден (нужен Hall.php или Halls.php).');
+}
+
+// Подключаем классы
+require_once 'classes/Database.php';
+
+// Определяем, какой файл с классом Hall используется
+if (file_exists('classes/Hall.php')) {
+    require_once 'classes/Hall.php';
+} elseif (file_exists('classes/Halls.php')) {
+    require_once 'classes/Halls.php';
+    // Если класс называется Halls, а не Hall, создадим алиас или проверим
+    if (!class_exists('Hall') && class_exists('Halls')) {
+        class_alias('Halls', 'Hall');
+    }
+}
+
+// Проверяем существование класса Hall
+if (!class_exists('Hall')) {
+    die('Ошибка: класс Hall не определён. Проверьте имя класса в файле.');
+}
+
+try {
+    $hallModel = new Hall();
+    $halls = $hallModel->getAll();
+} catch (Exception $e) {
+    die('Ошибка при загрузке залов: ' . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Банкетам.Нет - Главная</title>
-    <link rel="stylesheet" href="assets/css/mobile.css">
+    <title>Банкетам.Нет — Главная</title>
+    <!-- Единый файл стилей -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <span>9:41</span>
-            <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
-        </div>
-        
-        <div class="content">
-            <!-- Слайдер -->
-            <div class="slider-container" id="main-slider">
-                <div class="slider">
-                    <div class="slide"><img src="assets/images/slider/slide1.jpg" alt="Банкетный зал"></div>
-                    <div class="slide"><img src="assets/images/slider/slide2.jpg" alt="Ресторан"></div>
-                    <div class="slide"><img src="assets/images/slider/slide3.jpg" alt="Летняя веранда"></div>
-                    <div class="slide"><img src="assets/images/slider/slide4.jpg" alt="Закрытая веранда"></div>
-                </div>
-                <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
-                <div class="slider-dots"></div>
-            </div>
-            
-            <h2 style="margin-bottom: 20px;">Добро пожаловать!</h2>
-            
-            <!-- Блок с залами -->
-            <div class="halls-list">
+
+<!-- Шапка с навигацией -->
+<header class="header">
+    <div class="container">
+        <h1>Банкетам.Нет</h1>
+        <p class="subtitle">Бронирование помещений для банкетов</p>
+
+        <nav class="nav">
+            <a href="pages/login.php">Войти</a>
+            <a href="pages/register.php">Регистрация</a>
+            <a href="pages/booking.php">Оформить заявку</a>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <a href="pages/admin/dashboard.php">Панель администратора</a>
+            <?php else: ?>
+                <a href="pages/admin/dashboard.php">Админка</a> <!-- ссылка для входа админа -->
+            <?php endif; ?>
+        </nav>
+    </div>
+</header>
+
+<!-- Слайдер (JS-версия с кнопками и точками) -->
+<div class="slider-container" id="main-slider">
+    <div class="slider">
+        <div class="slide"><img src="assets/images/slider/slide1.jpg" alt="Банкетный зал"></div>
+        <div class="slide"><img src="assets/images/slider/slide2.jpg" alt="Ресторан"></div>
+        <div class="slide"><img src="assets/images/slider/slide3.jpg" alt="Летняя веранда"></div>
+        <div class="slide"><img src="assets/images/slider/slide4.jpg" alt="Закрытая веранда"></div>
+    </div>
+    <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+    <div class="slider-dots"></div>
+</div>
+
+<!-- Основной контент -->
+<main class="container">
+    <!-- Секция "О нас" -->
+    <section>
+        <h2>О нас</h2>
+        <p>Банкетам.Нет — сервис для бронирования помещений для банкетов: зал, ресторан, летняя веранда, закрытая веранда. Мы помогаем организовать ваше мероприятие быстро и удобно.</p>
+    </section>
+
+    <!-- Преимущества -->
+    <section>
+        <h3>Наши преимущества</h3>
+        <ul>
+            <li>Широкий выбор банкетных залов</li>
+            <li>Гибкий выбор дат и времени</li>
+            <li>Разные способы оплаты (наличные, карта, онлайн)</li>
+            <li>Контроль заявок через личный кабинет</li>
+            <li>Отзывы от реальных гостей</li>
+        </ul>
+    </section>
+
+    <!-- Список залов -->
+    <section>
+        <h3>Популярные залы</h3>
+        <div class="halls-grid">
+            <?php if (empty($halls)): ?>
+                <p>Пока нет доступных залов. Добавьте их через админ-панель.</p>
+            <?php else: ?>
                 <?php foreach ($halls as $hall): ?>
                 <div class="hall-card">
                     <div class="hall-image" style="background-image: url('<?php echo htmlspecialchars($hall['image'] ?? 'assets/images/halls/default.jpg'); ?>');">
-                        <?php if (!$hall['image']): ?>
+                        <?php if (empty($hall['image'])): ?>
                             <i class="fas fa-image"></i>
                         <?php endif; ?>
                     </div>
@@ -64,40 +135,25 @@ $halls = $hallModel->getAll();
                     </a>
                 </div>
                 <?php endforeach; ?>
-            </div>
-        </div>
-        
-        <!-- Нижняя навигация -->
-        <div class="bottom-nav">
-            <a href="index.php" class="active"><i class="fas fa-home"></i></a>
-            <a href="pages/profile.php"><i class="fas fa-user"></i></a>
-            <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="pages/login.php"><i class="fas fa-sign-in-alt"></i></a>
             <?php endif; ?>
         </div>
-    </div>
-    
-    <script src="assets/js/slider.js"></script>
-    <style>
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            padding: 16px;
-            background: white;
-            border-top: 1px solid var(--light);
+    </section>
+</main>
+
+<!-- Футер -->
+<footer class="footer">
+    <p class="help-text">© 2026 Банкетам.Нет. Все права защищены.</p>
+</footer>
+
+<!-- Скрипт слайдера -->
+<script src="assets/js/slider.js"></script>
+<!-- Дополнительный скрипт для инициализации, если нужно -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof ImageSlider !== 'undefined' && document.getElementById('main-slider')) {
+            new ImageSlider('main-slider');
         }
-        .bottom-nav a {
-            color: var(--gray);
-            font-size: 20px;
-            transition: color 0.3s;
-        }
-        .bottom-nav a.active {
-            color: var(--primary);
-        }
-        .hall-image {
-            background-size: cover;
-            background-position: center;
-        }
-    </style>
+    });
+</script>
 </body>
 </html>
