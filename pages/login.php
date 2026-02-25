@@ -35,51 +35,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Вход - Банкетам.Нет</title>
-    <link rel="stylesheet" href="../assets/css/mobile.css">
+    <!-- Подключаем единый стиль -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <span>9:41</span>
-            <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
-        </div>
-        
-        <div class="content">
-            <h2 style="margin-bottom: 20px;">Вход в систему</h2>
+    <!-- Можно оставить app-container, если он используется в style.css, либо заменить на обычную обёртку -->
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Вход в систему</h2>
             
             <?php if ($error): ?>
-                <div class="notification error" style="display: flex; margin-bottom: 20px;">
+                <div class="alert alert-danger">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span><?php echo $error; ?></span>
+                    <?php echo $error; ?>
                 </div>
             <?php endif; ?>
             
-            <form id="login-form" method="POST" data-validate>
+            <form method="POST">
                 <div class="form-group">
                     <label class="form-label">Логин</label>
                     <input type="text" class="form-control" name="login" 
-                           data-validate="required" 
                            value="<?php echo htmlspecialchars($_POST['login'] ?? ''); ?>" required>
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">Пароль</label>
-                    <input type="password" class="form-control" name="password" 
-                           data-validate="required" required>
+                    <input type="password" class="form-control" name="password" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-sign-in-alt"></i> Войти
                 </button>
                 
-                <p style="text-align: center; margin-top: 20px;">
+                <p class="text-center mt-3">
                     Еще не зарегистрированы? <a href="register.php">Регистрация</a>
                 </p>
             </form>
         </div>
     </div>
-    
-    <script src="../assets/js/validation.js"></script>
 </body>
 </html>

@@ -1,9 +1,18 @@
 <?php
 session_start();
-require_once '../../classes/Booking.php';
-require_once '../../classes/Hall.php';
-require_once '../../classes/User.php';
 
+// Проверка и подключение классов
+$classesPath = '../../classes/';
+require_once $classesPath . 'Booking.php';
+require_once $classesPath . 'Hall.php';
+require_once $classesPath . 'User.php';
+
+// Если класс Hall не найден, но есть Halls – создаём алиас
+if (!class_exists('Hall') && class_exists('Halls')) {
+    class_alias('Halls', 'Hall');
+}
+
+// Проверка авторизации администратора
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header('Location: ../login.php');
     exit;
@@ -32,7 +41,7 @@ $halls = $hallModel->getAll();
 $stats = [
     'total' => $bookingModel->getCount(),
     'new' => $bookingModel->getCount(['status' => 'Новая']),
-    'today' => $bookingModel->getCount(['date' => date('Y-m-d')])
+    'today' => $bookingModel->getCount(['date' => date('Y-m-d')]) // убедитесь, что这个方法 существует
 ];
 
 // Обработка изменения статуса (AJAX)
@@ -49,8 +58,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Админ-панель - Банкетам.Нет</title>
-    <link rel="stylesheet" href="../../assets/css/mobile.css">
+    <!-- Единый стиль -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Дополнительные стили для админки (можно перенести в style.css) -->
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .status-select {
+            appearance: none;
+            background: transparent;
+            padding: 6px 24px 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+        .status-new { background: #FFF3CD; color: #856404; }
+        .status-confirmed { background: #D4EDDA; color: #155724; }
+        .status-completed { background: #E2E3E5; color: #383D41; }
+    </style>
 </head>
 <body>
     <div class="app-container">
@@ -58,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2 style="color: white;">Админ-панель</h2>
                 <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px;">
-                    <?php echo $_SESSION['user_login']; ?>
+                    <?php echo htmlspecialchars($_SESSION['user_login']); ?>
                 </span>
             </div>
             
@@ -113,8 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
                     <div class="booking-header">
                         <span class="booking-hall"><?php echo htmlspecialchars($booking['hall_name']); ?></span>
                         <select class="status-badge status-select" 
-                                onchange="changeStatus(<?php echo $booking['id']; ?>, this.value)"
-                                style="border: none; cursor: pointer;">
+                                onchange="changeStatus(<?php echo $booking['id']; ?>, this.value)">
                             <option value="Новая" class="status-new" <?php echo $booking['status'] == 'Новая' ? 'selected' : ''; ?>>Новая</option>
                             <option value="Банкет назначен" class="status-confirmed" <?php echo $booking['status'] == 'Банкет назначен' ? 'selected' : ''; ?>>Банкет назначен</option>
                             <option value="Банкет завершен" class="status-completed" <?php echo $booking['status'] == 'Банкет завершен' ? 'selected' : ''; ?>>Банкет завершен</option>
@@ -227,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
                     const notification = document.getElementById('notification');
                     notification.style.display = 'flex';
                     
-                    // Обновляем цвет статуса
+                    // Обновляем класс статуса
                     const select = document.querySelector(`#booking-${bookingId} .status-select`);
                     select.className = 'status-badge status-select';
                     if (status === 'Новая') select.classList.add('status-new');
@@ -257,23 +299,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
             }, 500);
         });
     </script>
-    
-    <style>
-        .status-select {
-            appearance: none;
-            background: transparent;
-            padding: 6px 24px 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
-        }
-        .status-new { background: #FFF3CD; color: #856404; }
-        .status-confirmed { background: #D4EDDA; color: #155724; }
-        .status-completed { background: #E2E3E5; color: #383D41; }
-    </style>
 </body>
 </html>

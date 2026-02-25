@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../classes/Hall.php';
+require_once '../classes/Halls.php';
 require_once '../classes/Booking.php';
 
 if (!isset($_SESSION['user_id'])) {
