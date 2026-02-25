@@ -1,4 +1,3 @@
-
 class ImageSlider {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
