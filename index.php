@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'classes/Database.php';
-require_once 'classes/Hall.php';
+require_once 'classes/Halls.php';
 
 $hallModel = new Hall();
 $halls = $hallModel->getAll();
