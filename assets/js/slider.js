@@ -19,8 +19,8 @@ class ImageSlider {
     init() {
         if (this.totalSlides === 0) return;
 
-        // точки
-        this.dotsContainer.innerHTML = ''; // очищаем на случай дублей
+        // Очистить и создать точки
+        this.dotsContainer.innerHTML = '';
         for (let i = 0; i < this.totalSlides; i++) {
             const dot = document.createElement('span');
             dot.classList.add('dot');
@@ -41,7 +41,7 @@ class ImageSlider {
         this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
         this.container.addEventListener('mouseleave', () => this.startAutoPlay());
 
-        // Свайпы для мобильных
+        // Свайпы
         this.addSwipeSupport();
     }
 
@@ -58,9 +58,7 @@ class ImageSlider {
 
     updateDots() {
         const dots = this.dotsContainer.querySelectorAll('.dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === this.currentIndex);
-        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === this.currentIndex));
     }
 
     startAutoPlay() {
@@ -89,7 +87,6 @@ class ImageSlider {
     }
 }
 
-// Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('main-slider')) {
         new ImageSlider('main-slider');
