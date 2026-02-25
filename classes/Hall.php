@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/Database.php';
+if (!class_exists('Database')) {
+    die('Класс Database не загружен');
+}
 
 class Hall {
     private $db;
