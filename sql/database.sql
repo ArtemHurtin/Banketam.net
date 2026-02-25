@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS banquet_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE banquet_db;
-
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     login VARCHAR(50) UNIQUE NOT NULL,
@@ -50,3 +47,11 @@ CREATE TABLE reviews (
     FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
     UNIQUE KEY unique_user_booking (user_id, booking_id)
 );
+
+--тестовые данные
+INSERT INTO users (login, password, full_name, phone, email, role) VALUES
+('user1', '$2y$10$dummyhash', 'Иван Иванов', '+7 (999) 111-22-33', 'ivan@mail.com', 'user');
+
+INSERT INTO halls (name, type, description, capacity, price_per_hour, address) VALUES
+('Золотой зал', 'зал', 'Роскошный банкетный зал', 150, 5000, 'ул. Ленина, 15'),
+('Летняя терраса', 'летняя веранда', 'Открытая веранда с видом на парк', 80, 3500, 'пр. Мира, 32');
