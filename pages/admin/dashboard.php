@@ -4,7 +4,7 @@ session_start();
 // Проверка и подключение классов
 $classesPath = '../../classes/';
 require_once $classesPath . 'Booking.php';
-require_once $classesPath . 'Hall.php';
+require_once $classesPath . 'Halls.php';
 require_once $classesPath . 'User.php';
 
 // Если класс Hall не найден, но есть Halls – создаём алиас

@@ -20,7 +20,7 @@ if (file_exists('classes/Hall.php')) {
     require_once 'classes/Hall.php';
 } elseif (file_exists('classes/Halls.php')) {
     require_once 'classes/Halls.php';
-    // Если класс называется Halls, а не Hall, создадим алиас или проверим
+    
     if (!class_exists('Hall') && class_exists('Halls')) {
         class_alias('Halls', 'Hall');
     }
@@ -62,7 +62,7 @@ try {
             <a href="pages/register.php">Регистрация</a>
             <a href="pages/booking.php">Оформить заявку</a>
             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                <a href="pages/admin/dashboard.php">Панель администратора</a>
+               <a href="pages/admin/dashboard.php">Панель администратора</a>
             <?php else: ?>
                 <a href="pages/admin/dashboard.php">Админка</a> <!-- ссылка для входа админа -->
             <?php endif; ?>
