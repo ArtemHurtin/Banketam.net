@@ -1,5 +1,4 @@
 <?php
-// Включаем отображение ошибок (только для разработки, на продакшене отключить)
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -13,10 +12,10 @@ if (!file_exists('classes/Hall.php') && !file_exists('classes/Halls.php')) {
     die('Ошибка: файл класса Hall не найден (нужен Hall.php или Halls.php).');
 }
 
-// Подключаем классы
+
 require_once 'classes/Database.php';
 
-// Определяем, какой файл с классом Hall используется
+
 if (file_exists('classes/Hall.php')) {
     require_once 'classes/Hall.php';
 } elseif (file_exists('classes/Halls.php')) {

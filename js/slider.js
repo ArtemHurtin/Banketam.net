@@ -19,7 +19,7 @@ class ImageSlider {
     init() {
         if (this.totalSlides === 0) return;
 
-        // Создаём точки
+        // точки
         this.dotsContainer.innerHTML = ''; // очищаем на случай дублей
         for (let i = 0; i < this.totalSlides; i++) {
             const dot = document.createElement('span');
