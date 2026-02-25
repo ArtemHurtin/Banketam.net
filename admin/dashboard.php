@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
                             <span class="detail-label">Оплата</span>
                             <span class="detail-value">
                                 <?php 
-                                $methods = ['cash' => '💰 Наличные', 'card' => '💳 Карта', 'online' => '🌐 Онлайн'];
+                                $methods = ['cash' => 'Наличные', 'card' => 'Карта', 'online' => 'Онлайн'];
                                 echo $methods[$booking['payment_method']] ?? $booking['payment_method'];
                                 ?>
                             </span>
