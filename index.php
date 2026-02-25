@@ -26,7 +26,7 @@ if (file_exists('classes/Hall.php')) {
     }
 }
 
-// Проверяем существование класса Hall
+
 if (!class_exists('Hall')) {
     die('Ошибка: класс Hall не определён. Проверьте имя класса в файле.');
 }
